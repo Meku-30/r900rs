@@ -1,0 +1,29 @@
+[package]
+name = "r900rs"
+version = "0.1.0"
+edition = "2021"
+license = "AGPL-3.0-or-later"
+description = "Neptune R900 water meter decoder for RTL-SDR (Rust port of rtlamr's R900 decoder)"
+repository = "https://github.com/Meku-30/r900rs"
+readme = "README.md"
+keywords = ["rtl-sdr", "amr", "neptune", "r900", "water-meter"]
+categories = ["command-line-utilities"]
+publish = false
+
+[dependencies]
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+panic = "abort"
+
+# 10 秒分の解読を 1 秒以内に測るテストがあるので、テストも最適化する
+[profile.test]
+opt-level = 2
+
+# 比べる道具 (src/*.rs を #[path] で取り込むので、テストは本体の側だけで回す)
+[[bin]]
+name = "r900synth"
+path = "src/bin/r900synth.rs"
+test = false
